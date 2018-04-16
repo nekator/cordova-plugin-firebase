@@ -14,7 +14,6 @@ import android.app.Notification;
 import android.text.TextUtils;
 import android.content.ContentResolver;
 
-import com.asb360.area.dev.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -24,6 +23,17 @@ import java.util.Random;
 public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebasePlugin";
+
+  /**
+   * Get a string from resources without importing the .R package
+   * @param name Resource Name
+   * @return Resource
+   */
+    private String getStringResource(String name) {
+      return this.getString(
+        this.getResources().getIdentifier(
+          name, "string", this.getPackageName()));
+    }
 
     /**
      * Called when message is received.
@@ -95,8 +105,8 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id.hashCode(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-            String channelId = getString(R.string.default_notification_channel_id);
-            String channelName = getString(R.string.default_notification_channel_name);
+            String channelId = this.getStringResource("default_notification_channel_id");
+            String channelName = this.getStringResource("default_notification_channel_name");
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle(title)
